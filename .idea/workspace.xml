@@ -4,7 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c7cd0518-aead-4cce-8704-fda6bd4e646a" name="Changes" comment="" />
+    <list default="true" id="c7cd0518-aead-4cce-8704-fda6bd4e646a" name="Changes" comment="feat(models): add user and cost schemas&#10;&#10;Added schemas for users and costs:&#10;- Users schema includes id, first_name, last_name, birthday, marital_status with enum validation.&#10;- Costs schema includes description, category, userid, sum, and date with default value.&#10;&#10;feat(config): implement database connection&#10;&#10;Added `connectDB` function to manage MongoDB connection:&#10;- Uses environment variable `MONGO_URI`.&#10;- Handles connection errors and logs successful connections.&#10;&#10;docs(env): update `.env` file example&#10;&#10;Added `MONGO_URI` and `PORT` example configuration for developers to follow.">
+      <change afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/db.js" beforeDir="false" afterPath="$PROJECT_DIR$/config/db.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/env" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/costs.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/costs.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/users.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/users.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -17,9 +25,12 @@
       </list>
     </option>
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 8
-}]]></component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
   <component name="ProjectId" id="2riTEfaTj25GvEJ7EBHpzdlA1VH" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -28,6 +39,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "Idan-V",
     "javascript.nodejs.core.library.configured.version": "22.11.0",
     "javascript.nodejs.core.library.typings.version": "22.10.7",
     "node.js.detected.package.eslint": "true",
@@ -66,5 +78,9 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="feat(models): add user and cost schemas&#10;&#10;Added schemas for users and costs:&#10;- Users schema includes id, first_name, last_name, birthday, marital_status with enum validation.&#10;- Costs schema includes description, category, userid, sum, and date with default value.&#10;&#10;feat(config): implement database connection&#10;&#10;Added `connectDB` function to manage MongoDB connection:&#10;- Uses environment variable `MONGO_URI`.&#10;- Handles connection errors and logs successful connections.&#10;&#10;docs(env): update `.env` file example&#10;&#10;Added `MONGO_URI` and `PORT` example configuration for developers to follow." />
+    <option name="LAST_COMMIT_MESSAGE" value="feat(models): add user and cost schemas&#10;&#10;Added schemas for users and costs:&#10;- Users schema includes id, first_name, last_name, birthday, marital_status with enum validation.&#10;- Costs schema includes description, category, userid, sum, and date with default value.&#10;&#10;feat(config): implement database connection&#10;&#10;Added `connectDB` function to manage MongoDB connection:&#10;- Uses environment variable `MONGO_URI`.&#10;- Handles connection errors and logs successful connections.&#10;&#10;docs(env): update `.env` file example&#10;&#10;Added `MONGO_URI` and `PORT` example configuration for developers to follow." />
   </component>
 </project>
