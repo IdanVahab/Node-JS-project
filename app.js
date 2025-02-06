@@ -1,22 +1,41 @@
 require('dotenv').config(); // Load environment variables
 const express = require('express'); // Import Express for managing the server
 const connectDB = require('./config/db'); // Import the database connection function
+const usersRoutes = require('./routes/usersRoutes'); // Import user routes
+const costsRoutes = require('./routes/costsRoutes'); // Import cost routes
 
-// Initialize Express
+/**
+ * Initializes the Express application.
+ * Sets up middleware, database connection, and route handling.
+ */
 const app = express();
 
-// Middleware to parse JSON request bodies
+/**
+ * Middleware to parse JSON request bodies.
+ * Ensures that incoming requests with JSON payloads are properly parsed.
+ */
 app.use(express.json());
 
-// Connect to MongoDB
+/**
+ * Establish a connection to the MongoDB database.
+ * Uses the configuration defined in `config/db.js`.
+ */
 connectDB();
 
-// Load the routes
+/**
+ * Register user-related routes.
+ * Handles API requests under `/api/users`.
+ */
 app.use('/api/users', require('./routes/usersRoutes'));
+
+/**
+ * Register cost-related routes.
+ * Handles API requests under `/api/costs`.
+ */
 app.use('/api/costs', require('./routes/costsRoutes'));
 
-// Define the server port
-const PORT = process.env.PORT || 5000;
-
-// Start the server
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+/**
+ * Export the Express app instance.
+ * This allows testing and modular usage in other parts of the application.
+ */
+module.exports = app;
