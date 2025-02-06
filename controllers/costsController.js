@@ -1,6 +1,20 @@
 const Cost = require('../models/costs'); // Make sure the path is correct
-
 const { addCostSchema } = require('../utils/validation');
+
+
+/**
+ * Adds a new cost item to the database.
+ * @param {Object} req - Express request object containing the cost details in the body.
+ * @param {Object} req.body - The body of the request.
+ * @param {string} req.body.description - Description of the cost.
+ * @param {string} req.body.category - Category of the cost (e.g., food, health).
+ * @param {string} req.body.userid - User ID associated with the cost.
+ * @param {number} req.body.sum - Amount of the cost.
+ * @param {Date} [req.body.date] - Date of the cost (optional, defaults to current date).
+ * @param {Object} res - Express response object.
+ * @returns {Object} JSON object with the created cost item or an error message.
+ * @throws {Error} Returns a 400 error if validation fails or 500 for server errors.
+ */
 const addCost = async (req, res) => {
     try {
         const { description, category, userid, sum } = req.body;
@@ -30,22 +44,66 @@ const addCost = async (req, res) => {
     }
 };
 
-const getMonthlyReport = async (req, res) => { // Function to fetch a monthly report
-    try {
-        const { id, year, month } = req.query; // Extract parameters from the query string
 
-        // Validation: Check if required parameters are missing
+/**
+ * Fetches a monthly report of costs grouped by categories.
+ * @param {Object} req - Express request object containing query parameters.
+ * @param {Object} req.query - The query parameters of the request.
+ * @param {string} req.query.id - The user ID.
+ * @param {number} req.query.year - The year for the report.
+ * @param {number} req.query.month - The month for the report.
+ * @param {Object} res - Express response object.
+ * @returns {Object} JSON object with the monthly report grouped by categories or an error message.
+ * @throws {Error} Returns a 400 error if parameters are missing or 500 for server errors.
+ */
+const getMonthlyReport = async (req, res) => {
+    try {
+        const { id, year, month } = req.query;
+
+        // chack if the parmetares sent
         if (!id || !year || !month) {
             return res.status(400).json({ error: 'Missing required parameters' });
         }
 
-        const startDate = new Date(year, month - 1, 1); // Calculate the start of the month
-        const endDate = new Date(year, month, 0); // Calculate the end of the month
+        const startDate = new Date(year, month - 1, 1);
+        const endDate = new Date(year, month, 0);
 
-        const costs = await Cost.find({ userid: id, date: { $gte: startDate, $lte: endDate } }); // Fetch costs within the specified date range
-        res.json(costs); // Return the list of costs
+        // fetch user expense in date range
+        const costs = await Cost.find({ userid: id, date: { $gte: startDate, $lte: endDate } });
+
+        const groupedCosts = {
+            food: [],
+            health: [],
+            housing: [],
+            sports: [],
+            education: []
+        };
+
+        // sort costs by category
+        costs.forEach(cost => {
+            const costData = {
+                sum: cost.sum,
+                description: cost.description,
+                day: new Date(cost.date).getDate()
+            };
+
+            if (groupedCosts[cost.category]) {
+                groupedCosts[cost.category].push(costData);
+            }
+        });
+
+        // fetch data in req format
+        res.json({
+            userid: id,
+            year: parseInt(year),
+            month: parseInt(month),
+            costs: groupedCosts
+        });
+
     } catch (error) {
-        res.status(500).json({ error: 'Server error' }); // Handle server errors
+        console.error('Error in getMonthlyReport:', error);
+        res.status(500).json({ error: 'Server error' });
     }
 };
+
 module.exports = { addCost, getMonthlyReport };
