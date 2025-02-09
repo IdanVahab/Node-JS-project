@@ -60,7 +60,7 @@ const getMonthlyReport = async (req, res) => {
     try {
         const { id, year, month } = req.query;
 
-        // chack if the parmetares sent
+        // Check if the parameters were sent
         if (!id || !year || !month) {
             return res.status(400).json({ error: 'Missing required parameters' });
         }
@@ -68,9 +68,10 @@ const getMonthlyReport = async (req, res) => {
         const startDate = new Date(year, month - 1, 1);
         const endDate = new Date(year, month, 0);
 
-        // fetch user expense in date range
+        // Fetch user expenses within the date range
         const costs = await Cost.find({ userid: id, date: { $gte: startDate, $lte: endDate } });
 
+        // Initialize categories with empty arrays
         const groupedCosts = {
             food: [],
             health: [],
@@ -79,7 +80,7 @@ const getMonthlyReport = async (req, res) => {
             education: []
         };
 
-        // sort costs by category
+        // Sort costs by category
         costs.forEach(cost => {
             const costData = {
                 sum: cost.sum,
@@ -92,7 +93,7 @@ const getMonthlyReport = async (req, res) => {
             }
         });
 
-        // fetch data in req format
+        // Return the result in the required format
         res.json({
             userid: id,
             year: parseInt(year),
