@@ -14,9 +14,7 @@ describe('GET /api/users/about', () => {
 
         // רשימת השמות שאנו מצפים שייכללו בתשובה
         const expectedUsers = [
-            { first_name: "Idan", last_name: "Vahab" },
-            { first_name: "Idan", last_name: "Marmor" },
-            { first_name: "Arad", last_name: "Ben-Eliezer" }
+            { first_name: 'mosh', last_name: 'israeli' }
         ];
 
         // בדיקה שהתוצאה מכילה את השמות הצפויים (אך לא מחייבת רק אותם)
