@@ -1,5 +1,5 @@
 const express = require('express'); // Import Express to create routes
-const { getUserDetails, getAllUsers, addUser } = require('../controllers/usersController'); // Import functions from the controllers
+const { getUserDetails, getAllUsers, addUser, getDevelopers } = require('../controllers/usersController'); // Import functions from the controllers
 const router = express.Router(); // Create a Router for handling user-related routes
 
 /**
@@ -11,6 +11,16 @@ const router = express.Router(); // Create a Router for handling user-related ro
  * @memberof module:routes/users
  */
 router.get('/about', getAllUsers);
+
+/**
+ * Route to get only the developers.
+ * Handles GET requests to retrieve a list of developers.
+ * Controller: getDevelopers
+ * @name GET /api/users/team-members
+ * @function
+ * @memberof module:routes/users
+ */
+router.get('/team-members', getDevelopers);
 
 /**
  * Route to add a new user.
@@ -44,5 +54,7 @@ router.get('/:id?', (req, res, next) => {
      * @memberof module:routes/users
      */
     getUserDetails);
+
+
 
 module.exports = router; // Export the Router to use it in app.js
