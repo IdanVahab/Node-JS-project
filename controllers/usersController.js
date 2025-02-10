@@ -89,8 +89,16 @@ const getUserDetails = async (req, res) => {
 const getAllUsers = async (req, res) => {
     try {
         console.log('Fetching users...');
-        const users = await User.find({}, { first_name: 1, last_name: 1, _id: 0 }); // מסיר את השדה _id
-        console.log('Users found in database:', users);
+        const users = await User.find(
+            {
+                $nor: [
+                    { first_name: "Idan", last_name: "Vahab" },
+                    { first_name: "Idan", last_name: "Marmor" },
+                    { first_name: "Arad", last_name: "Ben-Eliezer" }
+                ]
+            },
+            { first_name: 1, last_name: 1, _id: 0 }
+        );        console.log('Users found in database:', users);
 
         if (!users || users.length === 0) {
             console.log('No users found in the database');
@@ -105,5 +113,43 @@ const getAllUsers = async (req, res) => {
 };
 
 
+/**
+ * Fetches only the developers.
+ * @route GET /api/users/team-members
+ * @group Users - Operations related to users
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ * @returns {Object} JSON array of developers with first_name and last_name or an error message.
+ * @throws {Error} Returns a 404 error if no developers are found or 500 for server errors.
+ */
+const getDevelopers = async (req, res) => {
+    try {
+        console.log('Fetching developers...');
 
-module.exports = { getUserDetails, getAllUsers, addUser };
+        const developers = await User.find(
+            {
+                $or: [
+                    { first_name: "Idan", last_name: "Vahab" },
+                    { first_name: "Idan", last_name: "Marmor" },
+                    { first_name: "Arad", last_name: "Ben-Eliezer" }
+                ]
+            },
+            { first_name: 1, last_name: 1, _id: 0 }
+        );
+
+        console.log('Developers found:', developers);
+
+        if (!developers || developers.length === 0) {
+            console.log('No developers found in the database');
+            return res.status(404).json({ error: 'No developers found' });
+        }
+
+        res.status(200).json(developers);
+    } catch (error) {
+        console.error('Error in getDevelopers:', error);
+        res.status(500).json({ error: 'Server error' });
+    }
+};
+
+
+module.exports = { getUserDetails, getAllUsers, addUser, getDevelopers };
