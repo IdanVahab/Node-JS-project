@@ -20,7 +20,7 @@ app.use(express.json());
  * Middleware to parse form data from HTML forms.
  * This is necessary for handling form submissions using POST method.
  */
-app.use(express.urlencoded({ extended: true })); // ✅ הוספנו כאן
+app.use(express.urlencoded({ extended: true })); 
 
 /**
  * Establish a connection to the MongoDB database.
