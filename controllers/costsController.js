@@ -80,6 +80,8 @@ const getMonthlyReport = async (req, res) => {
             education: []
         };
 
+
+
         // Sort costs by category
         costs.forEach(cost => {
             const costData = {
@@ -88,9 +90,15 @@ const getMonthlyReport = async (req, res) => {
                 day: new Date(cost.date).getDate()
             };
 
-            if (groupedCosts[cost.category]) {
+            if (groupedCosts.hasOwnProperty(cost.category)) {
                 groupedCosts[cost.category].push(costData);
             }
+        });
+
+        const formattedCosts = Object.keys(groupedCosts).map(category => {
+            return groupedCosts[category].length > 0
+                ? { [category]: groupedCosts[category] }
+                : { [category]: 0 };
         });
 
         // Return the result in the required format
@@ -98,7 +106,7 @@ const getMonthlyReport = async (req, res) => {
             userid: id,
             year: parseInt(year),
             month: parseInt(month),
-            costs: groupedCosts
+            costs: formattedCosts
         });
 
     } catch (error) {
